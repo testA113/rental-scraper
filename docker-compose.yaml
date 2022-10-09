@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  server:
+    image: rental-scraper:latest
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    volumes:
+      - rental_vol:/usr/src/app/data
+volumes:
+  rental_vol:

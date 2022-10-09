@@ -1,0 +1,54 @@
+# fly.toml file generated for rental-scraper on 2022-10-08T21:20:21+13:00
+
+app = "rental-scraper"
+kill_signal = "SIGINT"
+kill_timeout = 5
+processes = []
+
+[build]
+  image = "docker.io/aliharriss/rental-scraper:latest"
+
+[build.args]
+  NODE_ENV = "production"
+
+[env]
+  PORT = "8080"
+  NODE_ENV = "production"
+  SCRAPE_URL_QUERY = "https://www.openrent.co.uk/properties-to-rent/hackney-london?term=Hackney,%20London&area=4&bedrooms_min=0&bedrooms_max=3&isLive=true"
+  SENDGRID_API_KEY = "SG.asdfasdagerageraergerg"
+  SENDGRID_FROM_EMAIL = "ageraerg@aeergger.com"
+  SENDGRID_TO_EMAILS = """["agaerg@gmail.com","aergaerarth@gmail.com"]"""
+
+[experimental]
+  allowed_public_ports = []
+  auto_rollback = true
+
+[mounts]
+  source="rental_scrape_vol"
+  destination="/data"
+
+[[services]]
+  http_checks = []
+  internal_port = 8080
+  processes = ["app"]
+  protocol = "tcp"
+  script_checks = []
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.ports]]
+    force_https = true
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.tcp_checks]]
+    grace_period = "1s"
+    interval = "15s"
+    restart_limit = 0
+    timeout = "2s"
